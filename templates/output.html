@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Comp Finder | Competitions Near You</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/style.css') }}">
+    </head>
+    <body>
+        <div class="header">
+            <a href="https://www.worldcubeassociation.org/">
+                <img src="{{ wca_image }}" alt="WCA" style="width:50px;height:50px;">
+            </a>
+            <a href="/home">
+                <p>Comp Finder</p>
+            </a>
+            <a href="/home" class="button">Home</a>
+            <a href="/find_comps" class="button">Try It</a>
+            <a href="https://github.com/lol-cubes/comp_finder" class="button">Github</a>
+        </div>
+        <div class="page-content">
+            <h1>Here are the competitions near you:</h1>
+            <div class="comp-finder-results">
+                <table>
+                    <tr>
+                        {% for category in output[0] %}
+                            <th> {{ category }} </th>
+                        {% endfor %}
+                    </tr>
+                    {% for comp in output[1] %}
+                        <tr>
+                            {% for datapoint in comp %}
+                                <td> {{ datapoint }} </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

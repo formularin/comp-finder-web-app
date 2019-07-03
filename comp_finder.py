@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 import time
+import os
 
 # various XPaths for competition info elements
 REGISTRATION_REQUIREMENTS = '//*[@id="registration_requirements_text"]'
@@ -32,7 +33,7 @@ def wait_for_element(driver, selector, method):
 
 class Competition:
     """Object to hold all information about a WCA competition"""
-    def __init__(self, name, date, location, url, venue, d):
+    def __init__(self, name, date, location, url, venue, d, is_last):
         # all attributes defined here can be found in the WCA competitions page
         # the @property methods find information that must be found on the competition's individual page.
         self.name = name
@@ -43,6 +44,9 @@ class Competition:
         
         # necessary for finding other info about competition
         self.driver = d
+
+        # boolean telling whether or not to close webdriver
+        self.is_last = is_last
 
 
     @property
@@ -81,7 +85,8 @@ class Competition:
     def venue_address(self):
         """Finds address to competition venue"""
         
-        self.driver.get(self.url)
+        if self.driver.current_url != self.url:
+            self.driver.get(self.url)
 
         # find the link on the page that goes to google maps
         link = [elem for elem in self.driver.find_elements_by_xpath('//a')
@@ -95,14 +100,12 @@ class Competition:
     def driving_distance(self):
         """Finds the driving distance from your location to the competition
         
-        Args:
-            current_location -- address of where you want to drive to the competition from
-
         Returns:
             str -- hours h minutes min
         """
         
-        self.driver.get(self.url)
+        if self.driver.current_url != self.url:
+            self.driver.get(self.url)
 
         # link to venue on google maps
         link = self.driver.find_element_by_link_text(self.venue_address).get_attribute('href')
@@ -171,7 +174,14 @@ class Competition:
 
     def run(self):
         """Returns dictionary containing all of the competition's information"""
-        pass
+        
+        outputs = [self.name, self.url, self.date, self.venue, self.venue_address, 
+                             self.driving_distance, self.reached_competitor_limit]
+
+        if self.is_last:
+            self.driver.quit()
+
+        return outputs
 
 
 PAGE_URL = 'https://www.worldcubeassociation.org/competitions?&region=USA&display=list'
@@ -189,9 +199,8 @@ def find_comps(states, location):
 
     # create webdriver without physical window
     op = ChromeOptions()
-    op.add_argument('headless')
+    # op.add_argument('headless')
     driver = Chrome(f'{cwd}/chromedriver', options=op)
-
 
     driver.get(PAGE_URL)
 
@@ -214,12 +223,14 @@ def find_comps(states, location):
             comp_venue = elem.find_element_by_xpath(VENUE).text
             comp_link = elem.find_element_by_xpath(LINK).get_attribute('href')
 
-            competitions.append(
-                Competition(comp_name, comp_date, location, 
-                                comp_link, comp_venue, driver)
-                )
+            is_last = False
+            if elem is competitions_elements[-1]:
+                is_last = True
 
-    driver.quit()
+            competitions.append(
+                    Competition(comp_name, comp_date, location, 
+                                    comp_link, comp_venue, driver, is_last)
+                    )
 
     return competitions
 
