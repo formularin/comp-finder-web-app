@@ -18,9 +18,6 @@ def home():
 @app.route("/find_comps", methods=['GET', 'POST'])
 def find_comps():
     form = InputFileForm()
-    if form.validate_on_submit():
-        flash('states and address successfully submitted', 'success')
-        return redirect(url_for(home))
     return render_template('find_comps.html', wca_image=wca_image, form=form)
 
 if __name__ == '__main__':
