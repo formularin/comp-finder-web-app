@@ -9,6 +9,6 @@
     content: " ";
 }
 
-p, label {
+p, label, h1, h3 {
     font-family: "Roboto";
 }
