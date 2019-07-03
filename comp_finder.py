@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, flash, redirect
 from forms import InputFileForm
 import os
 
@@ -15,9 +15,12 @@ wca_image = os.path.join(app.config['UPLOAD_FOLDER'], 'wca_logo.png')
 def home():
     return render_template('home.html', wca_image=wca_image)
 
-@app.route("/find_comps")
+@app.route("/find_comps", methods=['GET', 'POST'])
 def find_comps():
     form = InputFileForm()
+    if form.validate_on_submit():
+        flash('states and address successfully submitted', 'success')
+        return redirect(url_for(home))
     return render_template('find_comps.html', wca_image=wca_image, form=form)
 
 if __name__ == '__main__':

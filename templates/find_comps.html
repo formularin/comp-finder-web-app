@@ -2,11 +2,12 @@
 <html>
     <head>
         <title>Comp Finder | Find Comps Near You</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/style.css') }}" />
     </head>
     <body>
         <div class="header">
             <a href="https://www.worldcubeassociation.org/">
-                <img src="{{ wca_image }}" alt="WCA" style="width:50px;height:50px;">
+                <img src="{{ wca_image }}" alt="WCA" style="width:50px;height:50px;" />
             </a>
             <a href="/home">
                 <p>Comp Finder</p>
@@ -24,7 +25,7 @@
                         <p>States (capitalized and separated by newlines)</p>
                         <br class="line-break">
                         {{ form.states(class="form-control form-control-lg") }}
-                        <br>
+                        <br class="line-break">
                     </div>
                     <div class="form-group">
                         {{ form.address.label(class="form-control-label") }}
