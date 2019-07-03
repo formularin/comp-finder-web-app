@@ -199,7 +199,7 @@ def find_comps(states, location):
 
     # create webdriver without physical window
     op = ChromeOptions()
-    # op.add_argument('headless')
+    op.add_argument('headless')
     driver = Chrome(f'{cwd}/chromedriver', options=op)
 
     driver.get(PAGE_URL)

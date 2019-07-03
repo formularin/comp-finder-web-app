@@ -18,14 +18,18 @@ def home_page():
 
 @app.route("/find_comps", methods=['GET', 'POST'])
 def find_comps_page():
+
     form = InputFileForm()
+
     # successfully inputted states and address
     if form.validate_on_submit():
+
         states = form.states.data.split('\n')
         address = form.address.data
         competitions = find_comps(states, address)
         categories = ['Name', 'URL', 'Date', 'Venue Name', 'Venue Address', 
                                     'Distance', 'Reached Competitor Limit']
+
         output = [categories, [competition.run() for competition in competitions]]
         return render_template('output.html', output=output)
     return render_template('find_comps.html', wca_image=wca_image, form=form)
