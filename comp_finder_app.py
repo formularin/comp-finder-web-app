@@ -25,7 +25,8 @@ def found_comps_page(states, address):
     competitions = find_comps(states, address)
     CATEGORIES = ['Name', 'URL', 'Date', 'Venue Name', 'Venue Address', 
                             'Distance', 'Reached Competitor Limit']
-    output = [CATEGORIES, [competition.run() for competition in competitions]]
+    comp_strings = [competition.run() for competition in competitions]
+    output = [CATEGORIES, comp_strings]
 
     return render_template('output.html', wca_image=wca_image, output=output, loading_gif=loading_gif)
 
@@ -38,7 +39,7 @@ def find_comps_page():
     # successfully inputted states and address
     if form.validate_on_submit():
 
-        states = form.states.data.split('\n')
+        states = [state.strip() for state in form.states.data.split('\n')]
         address = form.address.data
 
         return found_comps_page(states, address)

@@ -231,4 +231,3 @@ def find_comps(states, location):
     competitions[-1].is_last = True
 
     return competitions
-
