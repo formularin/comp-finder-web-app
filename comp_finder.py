@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
-import time
+import time as t
 import os
 
 # various XPaths for competition info elements
@@ -124,7 +124,7 @@ class Competition:
                     raise e
                 else:
                     i += 1
-            time.sleep(1)
+            t.sleep(1)
 
         # send location to address input field
         input_field = wait_for_element(self.driver, ADDRESS_INPUT, 'XPATH')
@@ -205,13 +205,13 @@ def find_comps(states, location):
     driver.get(PAGE_URL)
 
     # finds all list elements for competitions on competitions page
-    time.sleep(5)
+    t.sleep(5)
     competitions_elements = driver.find_elements_by_xpath(COMPETITION)
 
     # list to be filled with Competition objects
     competitions = []
 
-    for elem in competitions_elements:
+    for i, elem in enumerate(competitions_elements):
         comp_location = elem.find_element_by_xpath(LOCATION).text
         
         # checks if competition is in any of the local states
@@ -223,14 +223,12 @@ def find_comps(states, location):
             comp_venue = elem.find_element_by_xpath(VENUE).text
             comp_link = elem.find_element_by_xpath(LINK).get_attribute('href')
 
-            is_last = False
-            if elem is competitions_elements[-1]:
-                is_last = True
-
             competitions.append(
                     Competition(comp_name, comp_date, location, 
-                                    comp_link, comp_venue, driver, is_last)
+                                    comp_link, comp_venue, driver, False)
                     )
+        
+    competitions[-1].is_last = True
 
     return competitions
 

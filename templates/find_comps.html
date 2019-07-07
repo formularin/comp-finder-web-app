@@ -3,19 +3,42 @@
     <head>
         <title>Comp Finder | Find Comps Near You</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/style.css') }}" />
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     </head>
     <body>
         <div class="header">
-            <a href="https://www.worldcubeassociation.org/" target="blank">
+            <a href="https://www.worldcubeassociation.org/" target="_blank">
                 <img src="{{ wca_image }}" alt="WCA" style="width:50px;height:50px;">
             </a>
             <a href="/home" class="link">Comp Finder</a>
-            <a href="/home" target="blank" class="button">Home</a>
-            <a href="/find_comps" target="blank" class="button">Try It</a>
-            <a href="https://github.com/lol-cubes/comp_finder" target="blank" class="button">Github</a>
+            <a href="/home" class="button">Home</a>
+            <a href="/find_comps" class="button">Try It</a>
+            <a href="https://github.com/lol-cubes/comp_finder" target="_blank" class="button">Github</a>
         </div>
         <h1>Find WCA Competitions Near You</h1>
-        <div>
+        <!-- loading div is only displayed when page is loading (find_comps is running) -->
+
+        <div id="loading">
+            <img src="{{ loading_gif }}" alt="loading animation">
+        </div>
+
+        <script>
+            (function() {
+                var loadingDiv = document.getElementById("loading");
+                loadingDiv.style.display = "none";
+            })();
+        </script>
+
+        <script>
+            function showDiv() {
+                var loadingDiv = document.getElementById("loading");
+                var contentDiv = document.getElementById("content");
+                loadingDiv.style.display = "block";
+                contentDiv.style.display = "none";
+            }
+        </script>
+    
+        <div id="content">
            <form method="POST" action="">
                {{ form.hidden_tag() }}
                <fieldset class="form-group">
@@ -34,7 +57,8 @@
                         {{ form.submit(class="btn btn-outline-info") }}
                     </div>
                 </fieldset>
-           </form> 
+           </form>
         </div>
+
     </body>
 </html>
