@@ -27,35 +27,12 @@
         </style>
     </head>
     <body>
-            <div class="page-header">
-                    <ul>
-                        <li>
-                            <a href="https://www.worldcubeassociation.org/" class="inline-block logo" target="_blank">
-                                <div class="inline-block image">
-                                    <div class="overlay"></div>
-                                </div>
-                            </a>
-                        </li>
-                        <div>
-                            <li class="navbar-link">
-                                <a href="/home" class="inline-block button">Home</a>
-                            </li>
-                            <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
-                            <li class="navbar-link">
-                                <a href="/find_comps" class="inline-block button">Try It</a>
-                            </li class="navbar-link">
-                            <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
-                            <li class="navbar-link">
-                                <a href="https://github.com/lol-cubes/comp_finder" target="_blank" class="inline-block button">Github</a>
-                            </li>
-                        </div>
-                    </ul>
-                </div>
-        <h1>Find WCA Competitions Near You</h1>
+
         <!-- loading div is only displayed when page is loading (find_comps is running) -->
 
         <div id="loading">
-            <img src="{{ loading_gif }}" alt="loading animation">
+            <h3 style="text-align: center;">This may take a while</h3>
+            <img src="{{ loading_gif }}" alt="loading animation" style="display: block;margin-left: auto;margin-right: auto;width: 40%;">
         </div>
 
         <script>
@@ -65,36 +42,72 @@
             })();
         </script>
 
-        <script>
-            function showDiv() {
-                var loadingDiv = document.getElementById("loading");
-                var contentDiv = document.getElementById("content");
-                loadingDiv.style.display = "block";
-                contentDiv.style.display = "none";
-            }
-        </script>
-    
         <div id="content">
-           <form method="POST" action="">
-               {{ form.hidden_tag() }}
-               <fieldset class="form-group">
-                    <div class="form-group">
-                        <p>States (capitalized and separated by newlines)</p>
-                        <br class="line-break">
-                        {{ form.states(class="form-control form-control-lg") }}
-                        <br class="line-break">
+            <div class="page-header">
+                <ul>
+                    <li>
+                        <a href="https://www.worldcubeassociation.org/" class="inline-block logo" target="_blank">
+                            <div class="inline-block image">
+                                <div class="overlay"></div>
+                            </div>
+                        </a>
+                    </li>
+                    <div>
+                        <li class="navbar-link">
+                            <a href="/home" class="inline-block button">Home</a>
+                        </li>
+                        <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                        <li class="navbar-link">
+                            <a href="/find_comps" class="inline-block button">Try It</a>
+                        </li class="navbar-link">
+                        <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                        <li class="navbar-link">
+                            <a href="https://github.com/lol-cubes/comp_finder" target="_blank" class="inline-block button">Github</a>
+                        </li>
                     </div>
-                    <div class="form-group">
-                        {{ form.address.label(class="form-control-label") }}
-                        {{ form.address(class="form-control form-control-lg") }}
-                        <br>
-                    </div>
-                    <div class="form-group submit-button">
-                        {{ form.submit(class="btn btn-outline-info") }}
-                    </div>
-                </fieldset>
-           </form>
-        </div>
+                </ul>
+            </div>
+            <div class="title">
+                <h1>Find WCA Competitions Near You</h1>
+            </div>
 
+            <script>
+                function showDiv() {
+                    var loadingDiv = document.getElementById("loading");
+                    var contentDiv = document.getElementById("content");
+                    loadingDiv.style.display = "block";
+                    contentDiv.style.display = "none";
+                    document.body.style.backgroundColor = '#262626'
+                }
+            </script>
+
+            <div class="form">
+                <p>Submit the states that you want to find competitions in, 
+                        and the address or coordinates to the place that you want to know the driving distances for.</p>
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <div class="input">
+                            <p>States (capitalized and separated by newlines):</p>
+                            <br class="line-break">
+                            {{ form.states(class="form-control form-control-lg") }}
+                            <br class="line-break">
+                        </div>
+                        <br>
+                        <div class="input">
+                            {{ form.address.label(class="form-control-label") }}
+                            <br>
+                            <br>
+                            {{ form.address(class="form-control form-control-lg") }}
+                            <br>
+                        </div>
+                        <br>
+                        <div class="input">
+                            {{ form.submit(class="submit-button") }}
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
     </body>
 </html>

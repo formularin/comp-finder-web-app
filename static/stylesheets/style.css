@@ -4,8 +4,43 @@
   content: " ";
 }
 
+hr {
+  width: 50%;
+}
+
+.title {
+  background-color: #2d4f87;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.subtitle-line {
+  width: 30%;
+  transform: translateX(-360px);
+}
+
 p, label, h1, h3 {
   font-family: "Roboto";
+  color: white;
+}
+
+p {
+  line-height: 150%;
+}
+
+h1 {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 50px;
+}
+
+h3 {
+  font-size: 30px;
+}
+
+.text-info {
+  margin-left: 50px;
+  margin-right: 200px;
 }
 
 .header-text {
@@ -28,13 +63,17 @@ p, label, h1, h3 {
 }
 
 
-.small {
-  font: bold 12px Avenir;
+.small, .small:link, .small:visited {
+  font: bold 15px Avenir;
   text-decoration: none;
   background-color: #000000;
   color: #ffffff;
-  padding: 2px 6px 2px 6px;
-  border-radius: 5px;
+  padding: 5px 10px 5px 10px;
+  border-radius: 10px;
+}
+
+.small:active, .small:hover {
+  background-color: #1d1f45;
 }
 
 .logo {
@@ -56,7 +95,7 @@ div.navbar-link > as {
   position: absolute;
   transform: translate(300px, -40px);
   padding: 60px 10px 56px 10px;
-  width: 60px;
+  width: 70px;
   font-family: Avenir;
   font-size: 20px;
   color: white;
@@ -73,4 +112,34 @@ div.navbar-link > as {
 body {    
   margin: 0 !important;
   padding: 0 !important;
+  background-color: #474747;
+}
+
+.form {
+  width: 50%;
+  margin: 50px auto;
+}
+
+.form-group{
+  border-style: none;
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.submit-button {
+  font: bold 15px Avenir;
+  color: white;
+  background-color: #191e69;
+  border-style: none;
+  border-radius: 15px;
+  padding: 10px 20px 10px 20px;
+}
+
+.submit-button:hover {
+  background-color: #3d4194;
+}
+
+.input {
+  width: 75%;
+  margin: 0 auto;
 }

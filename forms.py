@@ -11,12 +11,12 @@ class CompInfoForm(FlaskForm):
                 ],
             render_kw={
                 'rows': '10', 
-                'cols': '50'
+                'cols': '77'
                 }
             )
     address = StringField(
-        'Address or Coordinates', 
+        'Address or Coordinates:', 
         validators=[DataRequired()],
-        render_kw={'size': '50'}
+        render_kw={'size': '79'}
         )
     submit = SubmitField('Find Competitions Near You', render_kw={'onclick': 'showDiv()'})

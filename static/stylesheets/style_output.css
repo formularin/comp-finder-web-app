@@ -1,6 +1,6 @@
 .table {
-  margin-left: 50px;
-  transform: translateY(25px);
+  width: 75%;
+  margin: 50px auto;
 }
 
 .row {
@@ -52,15 +52,15 @@
 
 .table-data {
   font: 12px Roboto;
+  color: white;
   vertical-align: middle;
 }
 
 .table-header {
   font: bold 12px Roboto;
+  color: white;
   height: 15px;
 }
-
-
 
 .cell-link, .cell-link:link, .cell-link:visited {
   background-color: black;
@@ -73,5 +73,5 @@
 }
 
 .cell-link:hover, .cell-link:active {
-  background-color: #4f4f4f;
+  background-color: red;
 }
