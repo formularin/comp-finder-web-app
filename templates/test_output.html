@@ -1,15 +1,16 @@
+
 <!DOCTYPE html>
 <html>
     <head>
         <title>Comp Finder | Competitions Near You</title>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/style.css') }}">
+        <link rel="stylesheet" type="text/css" href="/static/stylesheets/style.css">
         <link rel="stylesheet" type="text/css" href="/static/stylesheets/style_output.css">
-        <link rel="icon" href="{{ tab_icon }}" />
+        <link rel="icon" href="static/images/tab_icon.svg" />
 
         <style>
 
             .image {
-                background: url("{{ wca_image }}");
+                background: url("static/images/wca_logo.png");
                 background-size: 283px 67px;
                 width: 283px;
                 height: 67px;
@@ -54,25 +55,68 @@
                 </div>
         <div>
             <h1>Here are the competitions near you:</h1>
-            <div class="table">
+            <div id="comp-finder-results" class="table">
                 <!--table header row-->
-                <div id="comp-finder-results" class="header row">
-                    {% for category in output[0] %}
-                        <div class="cell table-header">{{ category }}</div>
-                    {% endfor %}
+                <div class="header row">
+                    
+                        <div class="cell table-header">Name</div>
+                    
+                        <div class="cell table-header">Website</div>
+                    
+                        <div class="cell table-header">Date</div>
+                    
+                        <div class="cell table-header">Venue Name</div>
+                    
+                        <div class="cell table-header">Venue Address</div>
+                    
+                        <div class="cell table-header">Distance</div>
+                    
+                        <div class="cell table-header">Reached Competitor Limit</div>
+                    
                 
                 <!--table data rows-->
-                {% for comp in output[1] %}
+                
                     <br>
                     <div class="data row">
-                        {% for datapoint in comp %}
-                            <div class="cell table-data">{{ datapoint }}</div>
-                        {% endfor %}
+                        
+                            <div class="cell table-data">Hudson Valley Summer 2019</div>
+                        
+                            <div class="cell table-data">https://www.worldcubeassociation.org/competitions/HudsonValleySummer2019</div>
+                        
+                            <div class="cell table-data">Jul 13, 2019</div>
+                        
+                            <div class="cell table-data">Arlington High School</div>
+                        
+                            <div class="cell table-data">1157 State Rte 55, Lagrangeville, NY 12540</div>
+                        
+                            <div class="cell table-data">1 h 40 min</div>
+                        
+                            <div class="cell table-data">False</div>
+                        
                     </div>
-                {% endfor %}
+                
+                    <br>
+                    <div class="data row">
+                        
+                            <div class="cell table-data">Massachusetts Championship 2019</div>
+                        
+                            <div class="cell table-data">https://www.worldcubeassociation.org/competitions/MassachusettsChampionship2019</div>
+                        
+                            <div class="cell table-data">Jul 26 - 28, 2019</div>
+                        
+                            <div class="cell table-data">Boston University</div>
+                        
+                            <div class="cell table-data">1 University Rd, Boston, MA 02215, USA</div>
+                        
+                            <div class="cell table-data">3 h 40 min</div>
+                        
+                            <div class="cell table-data">False</div>
+                        
+                    </div>
+                
                
                 <script>
-                    function copyText(text) {
+                        function copyText(text) {
                             /**
                              * Copies text to clipboard
                              * ..

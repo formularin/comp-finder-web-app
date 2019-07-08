@@ -181,7 +181,7 @@ class Competition:
         if self.is_last:
             self.driver.quit()
 
-        return outputs
+        return [str(i).strip() for i in outputs]
 
 
 PAGE_URL = 'https://www.worldcubeassociation.org/competitions?&region=USA&display=list'
