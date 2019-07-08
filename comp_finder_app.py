@@ -11,13 +11,12 @@ app.config['SECRET_KEY'] = '6f147f48a92da2c5ce776dc1533259e8'
 
 wca_image = os.path.join(app.config['UPLOAD_FOLDER'], 'wca_logo.png')
 loading_gif = os.path.join(app.config['UPLOAD_FOLDER'], 'loading_screen.gif')
-tab_icon = os.path.join(app.config['UPLOAD_FOLDER'], 'tab_icon.svg')
 
 
 @app.route("/")
 @app.route("/home")
 def home_page():
-    return render_template('home.html', wca_image=wca_image, tab_icon=tab_icon)
+    return render_template('home.html', wca_image=wca_image)
 
 
 @app.route("/found_comps")
@@ -29,7 +28,7 @@ def found_comps_page(states, address):
     comp_strings = [competition.run() for competition in competitions]
     output = [CATEGORIES, comp_strings]
 
-    return render_template('output.html', wca_image=wca_image, output=output, loading_gif=loading_gif, tab_icon=tab_icon)
+    return render_template('output.html', wca_image=wca_image, output=output, loading_gif=loading_gif)
 
 
 @app.route("/find_comps", methods=['GET', 'POST'])
@@ -45,12 +44,12 @@ def find_comps_page():
 
         return found_comps_page(states, address)
 
-    return render_template('find_comps.html', wca_image=wca_image, form=form, loading_gif=loading_gif, tab_icon=tab_icon)
+    return render_template('find_comps.html', wca_image=wca_image, form=form, loading_gif=loading_gif)
 
 # temporary test for output table styling
 @app.route("/test-output")
 def test_output_page():
-    return render_template('test_output.html', wca_image=wca_image, tab_icon=tab_icon)
+    return render_template('test_output.html', wca_image=wca_image)
 
 if __name__ == '__main__':
     app.run(debug=True)
