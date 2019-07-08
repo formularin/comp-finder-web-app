@@ -3,18 +3,54 @@
     <head>
         <title>Comp Finder | Find Comps Near You</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/style.css') }}" />
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <link rel="shortcut icon" href="#" />
+
+        <style>
+
+            .image {
+                background: url("{{ wca_image }}");
+                background-size: 283px 67px;
+                width: 283px;
+                height: 67px;
+                margin-left: -25px;
+            }
+
+            .image:hover > .overlay {
+                width:290px;
+                height:100%;
+                position:absolute;
+                background-color:#000;
+                opacity:0.5;
+                transition: .3s;
+            }
+
+        </style>
     </head>
     <body>
-        <div class="header">
-            <a href="https://www.worldcubeassociation.org/" target="_blank">
-                <img src="{{ wca_image }}" alt="WCA" style="width:50px;height:50px;">
-            </a>
-            <a href="/home" class="link">Comp Finder</a>
-            <a href="/home" class="button">Home</a>
-            <a href="/find_comps" class="button">Try It</a>
-            <a href="https://github.com/lol-cubes/comp_finder" target="_blank" class="button">Github</a>
-        </div>
+            <div class="header">
+                    <ul>
+                        <li>
+                            <a href="https://www.worldcubeassociation.org/" class="inline-block logo" target="_blank">
+                                <div class="inline-block image">
+                                    <div class="overlay"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <div>
+                            <li class="navbar-link">
+                                <a href="/home" class="inline-block button">Home</a>
+                            </li>
+                            <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                            <li class="navbar-link">
+                                <a href="/find_comps" class="inline-block button">Try It</a>
+                            </li class="navbar-link">
+                            <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                            <li class="navbar-link">
+                                <a href="https://github.com/lol-cubes/comp_finder" target="_blank" class="inline-block button">Github</a>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
         <h1>Find WCA Competitions Near You</h1>
         <!-- loading div is only displayed when page is loading (find_comps is running) -->
 

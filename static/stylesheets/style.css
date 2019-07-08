@@ -8,53 +8,24 @@ p, label, h1, h3 {
   font-family: "Roboto";
 }
 
-.button:link, .button:visited {
-  font: bold 11px Avenir;
-  text-decoration: none;
-  background-color: #000000;
-  color: #ffffff;
-  padding: 2px 6px 2px 6px;
-  border-radius: 5px;
-}
-
-.button:hover, .button:active {
-  background-color: red;
-}
-
-.link:link, .link:visited, .link:hover {
-  text-decoration: none;
-  color: #000000;
-  font: bold 30px Avenir;
-  padding: 5px 5px 5px 5px;
-}
-
-.link:active {
-  color: red;
-}
-
-button {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 15px 32px;
+.header-text {
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+  font-family: Avenir;
+  font-size: 30px;
 }
 
 .header {
-  padding-top: 0px;
+  padding-top: 20px;
   padding-right: 20px;
   padding-left: 20px;
   padding-bottom: 20px;
-  background: #1abc9c;
+  background: #002f7a;
   color: white;
+  position: relative;
+  height: 100px;
+  margin-top: 0px;
 }
 
-img {
-  padding-top: 20px
-}
 
 .small {
   font: bold 12px Avenir;
@@ -63,4 +34,42 @@ img {
   color: #ffffff;
   padding: 2px 6px 2px 6px;
   border-radius: 5px;
+}
+
+.logo {
+  vertical-align: center;
+  position: absolute;
+  top: 50%;
+  margin-top: -35px;
+}
+
+li {
+  display: inline;
+}
+
+div.navbar-link > as {
+  position: relative;
+}
+
+.navbar-link > a, .navbar-link > a:link, .navbar-link > a:link {
+  position: absolute;
+  transform: translate(300px, -40px);
+  padding: 60px 10px 56px 10px;
+  width: 60px;
+  font-family: Avenir;
+  font-size: 20px;
+  color: white;
+  background-color: #002f7a;
+  text-decoration: none;
+  text-align: center;
+}
+
+.navbar-link > a:hover, .navbar-link > a:active {
+  transition: .3s;
+  background-color: hsl(217, 84%, 35%);
+}
+
+body {    
+  margin: 0 !important;
+  padding: 0 !important;
 }
