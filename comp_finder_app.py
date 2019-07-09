@@ -18,7 +18,7 @@ wca_image = os.path.join(app.config['UPLOAD_FOLDER'], 'wca_logo.png')
 loading_gif = os.path.join(app.config['UPLOAD_FOLDER'], 'loading_screen.gif')
 
 with open(f'{CWD}/states.txt', 'r') as f:
-    ALL_STATES = f.read().split('\n')
+    ALL_STATES = [state.strip() for state in f.read().split('\n')]
 
 # create webdriver without physical window
 op = ChromeOptions()
@@ -70,12 +70,14 @@ def find_comps_page():
         
         # search for location on google maps
         driver.get('https://www.google.com/maps')
-        time.sleep(1)
+        time.sleep(2)
         input_field = driver.find_element_by_class_name('tactile-searchbox-input')
         input_field.send_keys(address)
         input_field.send_keys(Keys.ENTER)
 
-        address_is_valid = bool(len(driver.find_elements_by_class_name('section-bad-query-title')) > 0)
+        time.sleep(2)
+
+        address_is_valid = bool(len(driver.find_elements_by_class_name('section-bad-query-title')) == 0)
 
         if not address_is_valid and not states_are_valid:
             return invalid_page(invalid=['states', 'address'], states=invalid_states, address=address)

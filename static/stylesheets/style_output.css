@@ -50,6 +50,10 @@
   border-top-color: black;
 }
 
+.header :last-of-type .table-header {
+  padding-top: 5px;
+}
+
 .table-data {
   font: 12px Roboto;
   color: white;
@@ -57,7 +61,8 @@
 }
 
 .table-header {
-  font: bold 12px Roboto;
+  padding-top: 15px;
+  font: bold 14px Roboto;
   color: white;
   height: 15px;
 }
