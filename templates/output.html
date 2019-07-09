@@ -60,7 +60,13 @@
                 <!--table header row-->
                 <div id="comp-finder-results" class="header row">
                     {% for category in output[0] %}
-                        <div class="cell table-header">{{ category }}</div>
+                        <div class="cell table-header">
+                            {% if category == 'Reached Competitor Limit' %}
+                                <p class="header-cell last">{{ category }}</p>
+                            {% else %}
+                                <p class="header-cell">{{ category }}</p>
+                            {% endif %}
+                        </div>
                     {% endfor %}
                 
                 <!--table data rows-->
@@ -73,7 +79,7 @@
                     </div>
                 {% endfor %}
                
-                <script>
+                <script type='text/javascript'>
                     function copyText(text) {
                             /**
                              * Copies text to clipboard
