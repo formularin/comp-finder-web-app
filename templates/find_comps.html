@@ -107,6 +107,7 @@
                             <br class="line-break">
                         </div>
                         <br>
+                        <hr style="margin-top: 10%;margin-bottom: 10%;width: 75%;">
                         <div id="address-input-container">
                             {{ form.address.label() }}
                             <br>
@@ -114,6 +115,28 @@
                             {{ form.address(id="address-input") }}
                             <button onclick="GetAddress()" id="use-current-address">Use Current Location</button>
                             <br>
+                        </div>
+                        <hr style="margin-top: 10%;margin-bottom: 10%;width: 75%;">
+                        <div id="checkbox-section">
+                            <h4>Select Types of Information for Competitions:</h4>
+                            
+                            {{ form.date.label() }}
+                            {{ form.date() }}
+                            <br>
+                            {{ form.venue.label() }}
+                            {{ form.venue() }}
+                            <br>
+                            {{ form.website_link.label() }}
+                            {{ form.website_link() }}
+                            <br>
+                            {{ form.venue_address.label() }}
+                            {{ form.venue_address() }}
+                            <br>
+                            {{ form.driving_distance.label() }}
+                            {{ form.driving_distance() }}
+                            <br>
+                            {{ form.reached_competitor_limit.label() }}
+                            {{ form.reached_competitor_limit() }}
                         </div>
                         <br>
                     </fieldset>

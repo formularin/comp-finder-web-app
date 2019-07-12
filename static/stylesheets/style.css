@@ -179,3 +179,12 @@ div.error {
 #use-current-address:hover {
   background-color: red;
 }
+
+#checkbox-section > h4 {
+  color: white;
+  font-family: Roboto 
+}
+
+.checkbox {
+  transform: translateY(-2px);
+}

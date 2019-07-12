@@ -36,13 +36,9 @@ def invalid_page(**kwargs):
 
 
 @app.route("/found_comps")
-def found_comps_page(states, address):
+def found_comps_page(information_types, states, address):
 
-    competitions = find_comps(states, address)
-    CATEGORIES = ['Name', 'Website', 'Date', 'Venue Name', 'Venue Address', 
-                            'Distance', 'Reached Competitor Limit']
-    comp_strings = [competition.run() for competition in competitions]
-    output = [CATEGORIES, comp_strings]
+    output = find_comps(states, address, information_types)
 
     return render_template('output.html', wca_image=wca_image, output=output, loading_gif=loading_gif)
 
@@ -85,7 +81,22 @@ def find_comps_page():
         elif address_is_valid and not states_are_valid:
             return invalid_page(invalid=['states'], states=invalid_states)
 
-        return found_comps_page(states, address)
+        information_types = []
+
+        if form.date.data:
+            information_types.append('date')
+        if form.venue.data:
+            information_types.append('venue')
+        if form.website_link.data:
+            information_types.append('website_link')
+        if form.venue_address.data:
+            information_types.append('venue_address')
+        if form.driving_distance.data:
+            information_types.append('driving_distance')
+        if form.reached_competitor_limit.data:
+            information_types.append('reached_competitor_limit')
+
+        return found_comps_page(information_types, states, address)
 
     return render_template('find_comps.html', wca_image=wca_image, form=form, loading_gif=loading_gif)
 
