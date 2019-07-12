@@ -121,10 +121,20 @@ body {
   margin: 50px auto;
 }
 
+.form > p {
+  text-align: center;
+}
+
 .form-group{
-  border-style: none;
-  margin-left: 0px;
-  padding-left: 0px;
+  padding: 15px 15px 15px 15px;
+  border-style: solid;
+  background-color: #0a367d;
+  width: 50%;
+  margin: 0 auto;
+}
+
+#address-input-container {
+  margin-top: 25px;
 }
 
 .submit-button {
@@ -134,15 +144,12 @@ body {
   border-style: none;
   border-radius: 15px;
   padding: 10px 20px 10px 20px;
+  margin-top: 20px;
+  margin-left: 30%;
 }
 
 .submit-button:hover {
   background-color: #3d4194;
-}
-
-.input {
-  width: 75%;
-  margin: 0 auto;
 }
 
 div.error {

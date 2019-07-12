@@ -99,14 +99,14 @@
                 <form method="POST" action="">
                     {{ form.hidden_tag() }}
                     <fieldset class="form-group">
-                        <div class="input">
+                        <div class="states-input-container">
                             <p>States (capitalized and separated by newlines):</p>
                             <br class="line-break">
                             {{ form.states() }}
                             <br class="line-break">
                         </div>
                         <br>
-                        <div class="input">
+                        <div id="address-input-container">
                             {{ form.address.label() }}
                             <br>
                             <br>
@@ -115,10 +115,8 @@
                             <br>
                         </div>
                         <br>
-                        <div class="input">
-                            {{ form.submit(class="submit-button") }}
-                        </div>
                     </fieldset>
+                    {{ form.submit(class="submit-button") }}
                 </form>
             </div>
         </div>
