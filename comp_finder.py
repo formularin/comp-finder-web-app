@@ -16,6 +16,15 @@ COMPETITOR_TABLE_FOOTER = '//*[@id="competition-data"]/div/div[1]/div[2]/div[2]/
 ADDRESS_INPUT = '//input[@placeholder=\'Choose starting point, or click on the map...\']'
 ESTIMATED_TIME = '//*[@id=\'section-directions-trip-#\']/div[2]/div[1]/div[1]/div[1]/span[1]'
 DIRECTIONS_BUTTON = '//*[@id=\'pane\']/div/div[1]/div/div/div[4]/div[1]/div/button'
+COMPETITION = '//div[@id=\'upcoming-comps\']/ul/li[@class=\'list-group-item not-past\']'
+LOCATION = './/div[@class="location"]'
+LINK = './/div[@class="competition-link"]/a'
+DATE = './/span[@class="date"]'
+VENUE = './/div[@class="venue-link"]/p'
+
+# additional constants
+CWD = os.path.dirname(os.path.abspath(__file__))
+PAGE_URL = 'https://www.worldcubeassociation.org/competitions?&region=USA&display=list'
 
 
 def wait_for_element(driver, selector, method):
@@ -32,21 +41,59 @@ def wait_for_element(driver, selector, method):
 
 
 class Competition:
-    """Object to hold all information about a WCA competition"""
-    def __init__(self, name, date, location, url, venue, d, is_last):
+    """Object to hold all information about a WCA competition
+    
+    Args:
+        name (str) -- name of competition
+
+        d (selenium.webdriver.Chrome) -- webdriver to be used for collecting further info
+
+        is_last (bool) -- whether or not this is the last competition of the group
+
+        location (str) -- place to know driving distance from
+
+        do_driving_distance, do_venue_address, do_reached_competitor_limit (bool) -- whether or not to take these measurements
+
+        **kwargs -- can contain keys of date, website_link, and venue
+    """
+    def __init__(self, name, d, is_last, location,
+                 do_driving_distance, do_venue_address, do_reached_competitor_limit, 
+                 **kwargs):
         # all attributes defined here can be found in the WCA competitions page
         # the @property methods find information that must be found on the competition's individual page.
-        self.name = name
-        self.date = date
-        self.location = location
-        self.url = url
-        self.venue = venue
         
+        # required args:
+        self.name = name
+
         # necessary for finding other info about competition
         self.driver = d
 
         # boolean telling whether or not to close webdriver
         self.is_last = is_last
+
+        # address to find distance to comps from
+        self.location = location
+
+        # booleans on whether or not to find specific information
+        self.do_driving_distance = do_driving_distance
+        self.do_reached_competitor_limit = do_reached_competitor_limit
+        self.do_venue_address = do_venue_address
+
+        # possible **kwargs
+        try:
+            self.date = kwargs['date']
+        except KeyError:
+            pass
+        
+        try:
+            self.url = kwargs['website_link']
+        except KeyError:
+            pass
+
+        try:
+            self.venue = kwargs['venue']
+        except KeyError:
+            pass
 
 
     @property
@@ -56,7 +103,13 @@ class Competition:
         Returns:
             bool -- True if it has been reached, False if not
         """
-        self.driver.get(self.url)
+        try:
+            if self.driver.current_url != self.url:
+                self.driver.get(self.url)
+        except AttributeError:
+            self.driver.get(PAGE_URL)
+            self.url = self.driver.find_element_by_link_text(self.name).get_attribute('href')
+            self.driver.get(self.url)
         
         # find the line where the competitor limit is stated
         competitor_limit_line = [
@@ -85,7 +138,12 @@ class Competition:
     def venue_address(self):
         """Finds address to competition venue"""
         
-        if self.driver.current_url != self.url:
+        try:
+            if self.driver.current_url != self.url:
+                self.driver.get(self.url)
+        except AttributeError:
+            self.driver.get(PAGE_URL)
+            self.url = self.driver.find_element_by_link_text(self.name).get_attribute('href')
             self.driver.get(self.url)
 
         # find the link on the page that goes to google maps
@@ -104,7 +162,12 @@ class Competition:
             str -- hours h minutes min
         """
         
-        if self.driver.current_url != self.url:
+        try:
+            if self.driver.current_url != self.url:
+                self.driver.get(self.url)
+        except AttributeError:
+            self.driver.get(PAGE_URL)
+            self.url = self.driver.find_element_by_link_text(self.name).get_attribute('href')
             self.driver.get(self.url)
 
         # link to venue on google maps
@@ -174,9 +237,35 @@ class Competition:
 
     def run(self):
         """Returns dictionary containing all of the competition's information"""
-        
-        outputs = [self.name, self.url, self.date, self.venue, self.venue_address, 
-                             self.driving_distance, self.reached_competitor_limit]
+
+        def try_expression(expression, self):
+            try:
+                return eval(expression)
+            except Exception as e:
+                return
+
+        outputs = [
+            try_expression(f'self.{info_type}', self) for info_type in
+            [
+                'name', 
+                'date',
+                'venue',
+                'url',
+            ]
+                   ]
+
+        while True:
+            try:
+                outputs.remove(None)
+            except ValueError:
+                break
+
+        if self.do_venue_address:
+            outputs.append(self.venue_address)
+        if self.do_driving_distance:
+            outputs.append(self.driving_distance)
+        if self.do_reached_competitor_limit:
+            outputs.append(self.reached_competitor_limit)
 
         if self.is_last:
             self.driver.quit()
@@ -184,23 +273,22 @@ class Competition:
         return [str(i).strip() for i in outputs]
 
 
-PAGE_URL = 'https://www.worldcubeassociation.org/competitions?&region=USA&display=list'
-cwd = os.getcwd()
-
-# Various XPaths for competition info elements
-COMPETITION = '//div[@id=\'upcoming-comps\']/ul/li[@class=\'list-group-item not-past\']'
-LOCATION = './/div[@class="location"]'
-LINK = './/div[@class="competition-link"]/a'
-DATE = './/span[@class="date"]'
-VENUE = './/div[@class="venue-link"]/p'
-
-def find_comps(states, location):
-    """Returns Competition objects for competition in states"""
+def find_comps(states, location, information_types):
+    """Returns Competition objects for competition in states
+    
+    Potential Information Types (must be in this order):
+        date
+        venue
+        website_link
+        venue_address
+        driving_distance
+        reached_competitor_limit
+    """
 
     # create webdriver without physical window
     op = ChromeOptions()
     op.add_argument('headless')
-    driver = Chrome(f'{cwd}/chromedriver', options=op)
+    driver = Chrome(f'{CWD}/chromedriver', options=op)
 
     driver.get(PAGE_URL)
 
@@ -218,16 +306,38 @@ def find_comps(states, location):
         if comp_location.split(', ')[-1] in states:
             # find various info about competition
 
+            information = []
+
             comp_name = elem.find_element_by_xpath(LINK).text
-            comp_date = elem.find_element_by_xpath(DATE).text
-            comp_venue = elem.find_element_by_xpath(VENUE).text
-            comp_link = elem.find_element_by_xpath(LINK).get_attribute('href')
+            if 'date' in information_types:
+                comp_date = elem.find_element_by_xpath(DATE).text
+                information.append(comp_date)
+            if 'venue' in information_types:
+                comp_venue = elem.find_element_by_xpath(VENUE).text
+                information.append(comp_venue)
+            if 'website_link' in information_types:
+                comp_link = elem.find_element_by_xpath(LINK).get_attribute('href')
+                information.append(comp_link)
 
             competitions.append(
-                    Competition(comp_name, comp_date, location, 
-                                    comp_link, comp_venue, driver, False)
+                    Competition(
+                        comp_name, driver, False, location,
+
+                        bool('driving_distance' in information_types), 
+                        bool('venue_address' in information_types), 
+                        bool('reached_competitor_limit' in information_types),
+
+                        **dict(zip(
+                            [i for i in ['date', 'venue', 'website_link'] if i in information_types], 
+                            information
+                            )))
                     )
         
     competitions[-1].is_last = True
 
-    return competitions
+    information_types.insert(0, 'name')
+    
+    comp_strings = [competition.run() for competition in competitions]
+    output = [information_types, comp_strings]
+
+    return output
