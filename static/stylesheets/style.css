@@ -111,8 +111,8 @@ div.navbar-link > as {
 }
 
 body {    
-  margin: 0 !important;
-  padding: 0 !important;
+  margin: 0;
+  padding: 0;
   background-color: #474747;
 }
 
@@ -151,4 +151,17 @@ div.error {
 
 .error-text {
   font-size: 18px;
+}
+
+#use-current-address {
+  margin-top: 5px;
+  padding: 4px 4px 4px 4px;
+  border-style: none;
+  font-family: Avenir;
+  font-size: 15px;
+  text-decoration: bold;
+}
+
+#use-current-address:hover {
+  background-color: red;
 }

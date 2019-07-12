@@ -6,9 +6,8 @@ from comp_finder import find_comps
 import os
 import time
 
-
+CWD = os.path.dirname(os.path.abspath(__file__))
 IMAGE_FOLDER = os.path.join('static', 'images')
-CWD = os.getcwd()
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = IMAGE_FOLDER
