@@ -338,6 +338,8 @@ def find_comps(states, location, information_types):
     information_types.insert(0, 'name')
     
     comp_strings = [competition.run() for competition in competitions]
+    
+    categories = [' '.join([x.capitalize() for x in i.split('_')]) for i in information_types]
     output = [information_types, comp_strings]
 
     return output
