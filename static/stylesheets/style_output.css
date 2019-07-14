@@ -34,7 +34,6 @@
 }
 
 .data {
-  transform: translate(-973px, 20px);
   border-top-style: solid;
   border-top-width: 1px;
   border-top-color: black;
@@ -45,7 +44,7 @@
 }
 
 .header {
-  transform: translate(-15px);
+  margin-left: 50%;
   border-top-style: solid;
   border-top-width: 1px;
   border-top-color: black;

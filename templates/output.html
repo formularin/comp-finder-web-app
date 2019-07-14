@@ -26,8 +26,32 @@
             }
 
         </style>
+        <script>
+            function FormatTable() {
+                var table = document.getElementById("comp-finder-results");
+                
+                // loop over cells
+                for (var i = 1, cell; cell = table.getElementsByClassName('cell table-data')[i]; i++) {
+                    
+                    var cellContent = cell.innerText
+                    
+                    // check if cell contains link
+                    if (cellContent.includes('https://')) {
+                        // change to link and copy url elements
+                        cell.innerHTML = `<a href="${cellContent}" class="cell-link">Link</a>\n\
+                        <a onclick=copyText("${cellContent}") class="cell-link">Copy URL</a>`;
+                    }
+                }
+
+                var data_rows = document.getElementsByClassName("data row")
+                var header_row = document.getElementsByClassName("header row")[0]
+                for (var i = 1, data_row; data_row = data_rows[i]; i++) {
+                    data_rows.style.tranform = "translateX(-" + header_row.style.width + ")"
+                }
+            }
+        </script>
     </head>
-    <body>
+    <body onload="FormatTable()">
         <div class="page-header">
             <ul>
                 <li>
@@ -69,6 +93,7 @@
                             {% endif %}
                         </div>
                     {% endfor %}
+                </div>
                 
                 <!--table data rows-->
                 {% for comp in output[1] %}
@@ -82,61 +107,46 @@
                
                 <script type='text/javascript'>
                     function copyText(text) {
-                            /**
-                             * Copies text to clipboard
-                             * ..
-                             * Creates invisble textarea element and fills with text.
-                             * Then copies text to clipboard and removes element
-                            */
-                            
-                            // create textarea element
-                            var textArea = document.createElement("textarea");
-    
-                            // style element to make sure it doesn't appear
-                            textArea.style.position = 'fixed';
-                            textArea.style.top = 0;
-                            textArea.style.left = 0;
-                            textArea.style.width = '2em';
-                            textArea.style.height = '2em';
-                            textArea.style.padding = 0;
-                            textArea.style.border = 'none';
-                            textArea.style.outline = 'none';
-                            textArea.style.boxShadow = 'none';
-                            textArea.style.background = 'transparent';
-    
-                            textArea.value = text;
-    
-                            document.body.appendChild(textArea);
-                            textArea.focus();
-                            textArea.select();
-    
-                            try {
-                                var successful = document.execCommand('copy');
-                                var msg = successful ? 'successful' : 'unsuccessful';
-                                console.log('Copying text command was ' + msg);
-                            } catch (err) {
-                                console.log('Oops, unable to copy');
-                            }
-    
-                            document.body.removeChild(textArea);
-                            
-                        }
-    
-                        var table = document.getElementById("comp-finder-results");
+                        /**
+                         * Copies text to clipboard
+                         * ..
+                         * Creates invisble textarea element and fills with text.
+                         * Then copies text to clipboard and removes element
+                        */
                         
-                        // loop over cells
-                        for (var i = 1, cell; cell = table.getElementsByClassName('cell table-data')[i]; i++) {
-                            
-                            var cellContent = cell.innerText
-                            
-                            // check if cell contains link
-                            if (cellContent.includes('https://')) {
-                                // change to link and copy url elements
-                                cell.innerHTML = `<a href="${cellContent}" class="cell-link">Link</a>\n\
-                                <a onclick=copyText("${cellContent}") class="cell-link">Copy URL</a>`;
-                            }
+                        // create textarea element
+                        var textArea = document.createElement("textarea");
+
+                        // style element to make sure it doesn't appear
+                        textArea.style.position = 'fixed';
+                        textArea.style.top = 0;
+                        textArea.style.left = 0;
+                        textArea.style.width = '2em';
+                        textArea.style.height = '2em';
+                        textArea.style.padding = 0;
+                        textArea.style.border = 'none';
+                        textArea.style.outline = 'none';
+                        textArea.style.boxShadow = 'none';
+                        textArea.style.background = 'transparent';
+
+                        textArea.value = text;
+
+                        document.body.appendChild(textArea);
+                        textArea.focus();
+                        textArea.select();
+
+                        try {
+                            var successful = document.execCommand('copy');
+                            var msg = successful ? 'successful' : 'unsuccessful';
+                            console.log('Copying text command was ' + msg);
+                        } catch (err) {
+                            console.log('Oops, unable to copy');
                         }
-                    </script>
+
+                        document.body.removeChild(textArea);
+                        
+                    }
+                </script>
     
             </div>
         </div>
