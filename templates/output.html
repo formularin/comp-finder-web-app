@@ -57,28 +57,32 @@
             <div class="title">
                 <h1>Competitions Near You</h1>
             </div>
-            <div class="table">
-                <!--table header row-->
-                <div id="comp-finder-results" class="header row">
-                    {% for category in output[0] %}
-                        <div class="cell table-header">
-                            {% if category == 'Reached Competitor Limit' %}
-                                <p class="header-cell last">{{ category }}</p>
-                            {% else %}
-                                <p class="header-cell">{{ category }}</p>
-                            {% endif %}
+            {% if output == 'None' %}
+                <h3 style="margin-left:15%">There are no upcoming competitions in the states given</h3>
+            {% else %}
+                <div class="table">
+                    <!--table header row-->
+                    <div id="comp-finder-results" class="header row">
+                        {% for category in output[0] %}
+                            <div class="cell table-header">
+                                {% if category == 'Reached Competitor Limit' %}
+                                    <p class="header-cell last">{{ category }}</p>
+                                {% else %}
+                                    <p class="header-cell">{{ category }}</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    
+                    <!--table data rows-->
+                    {% for comp in output[1] %}
+                        <br>
+                        <div class="data row">
+                            {% for datapoint in comp %}
+                                <div class="cell table-data">{{ datapoint }}</div>
+                            {% endfor %}
                         </div>
                     {% endfor %}
-                
-                <!--table data rows-->
-                {% for comp in output[1] %}
-                    <br>
-                    <div class="data row">
-                        {% for datapoint in comp %}
-                            <div class="cell table-data">{{ datapoint }}</div>
-                        {% endfor %}
-                    </div>
-                {% endfor %}
+                {% endif %}
                
                 <script type='text/javascript'>
                     function copyText(text) {

@@ -333,13 +333,18 @@ def find_comps(states, location, information_types):
                             )))
                     )
         
-    competitions[-1].is_last = True
+    try:
+        competitions[-1].is_last = True
 
-    information_types.insert(0, 'name')
-    
-    comp_strings = [competition.run() for competition in competitions]
-    
-    categories = [' '.join([x.capitalize() for x in i.split('_')]) for i in information_types]
-    output = [information_types, comp_strings]
+        information_types.insert(0, 'name')
+        
+        comp_strings = [competition.run() for competition in competitions]
+        
+        categories = [' '.join([x.capitalize() for x in i.split('_')]) for i in information_types]
+        output = [information_types, comp_strings]
 
-    return output
+        return output
+
+    except IndexError:
+
+        return 'None'

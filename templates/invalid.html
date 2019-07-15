@@ -55,8 +55,8 @@
         <div class="title">
             <h3>Invalid Input - Some of the information you submitted wasn't in the correct format</h3>
         </div>
-        {% if 'states' in invalid %}
             <div class="error">
+                {% if 'states' in invalid %}
                 {% for state in states %}
                     <p class="error-text">You entered "{{ state }} as a state."<br>
                        Either this is not one of the 50 states, or it's not capitalized properly.</p>
