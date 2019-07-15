@@ -1,79 +1,36 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Comp Finder | Home</title>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/style.css') }}">
-        <link rel="shortcut icon" href="/static/images/favicon.ico" />
-
-        <style>
-
-            .image {
-                background: url("{{ wca_image }}");
-                background-size: 283px 67px;
-                width: 283px;
-                height: 67px;
-                margin-left: -25px;
-            }
-
-            .image:hover > .overlay {
-                width:290px;
-                height:100%;
-                position:absolute;
-                background-color:#000;
-                opacity:0.5;
-                transition: .3s;
-            }
-
-        </style>
-    </head>
-    <body>
-        <div class="page-header">
-            <ul>
-                <li>
-                    <a href="https://www.worldcubeassociation.org/" class="inline-block logo" target="_blank">
-                        <div class="inline-block image">
-                            <div class="overlay"></div>
-                        </div>
-                    </a>
-                </li>
-                <div>
-                    <li class="navbar-link">
-                        <a href="/home" class="inline-block button">Home </a>
-                    </li>
-                    <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
-                    <li class="navbar-link">
-                        <a href="/find_comps" class="inline-block button">Try It</a>
-                    </li class="navbar-link">
-                    <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
-                    <li class="navbar-link">
-                        <a href="https://github.com/lol-cubes/comp_finder" target="_blank" class="inline-block button">Github</a>
-                    </li>
-                </div>
-            </ul>
-        </div>
-        <div id="bumper"></div>
-        <div class="info">
-            <div class="title">
-                <h1>Home</h1>
-            </div>
-            <div class="text-info">
-                <h3>Web App</h3>
-                <hr class="subtitle-line">
-                <p>The Comp Finder web-app allows you to find all the WCA cubing competitions in states nearby to you. 
-                   Use it to find competitions near you right now by clicking the "Try It" tab.</p>
-                <a href="https://github.com/lol-cubes/comp-finder-web-app" target="_blank" class="small">Github Page</a>
-            </div>
-            <br>
-            <br>
-            <div class="text-info">
-                <h3>Command Line Tool</h3>
-                <hr class="subtitle-line">
-                <p>Comp Finder is also available as a command-line tool. 
-                   This runs a daemon process, which means that it is always running in the background along with all your other computer tasks.
-                   It updates a file containing information about the competitions every 30 minutes.
-                   </p>
-                   <a href="https://github.com/lol-cubes/comp_finder" target="_blank" class="small">Github Page</a>
-            </div>
-        </div>
-    </body>
-</html>
+{% extends "bootstrap/base.html" %}
+{% block head %}
+{{super()}}
+<link rel="shortcut icon" href="/static/images/favicon.ico"/>
+{% endblock %}
+{% block title %}
+Comp Finder | Home
+{% endblock %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
+</nav>
+<div class="info">
+    <div class="title">
+        <h1>Home</h1>
+    </div>
+    <div class="text-info">
+        <h3>Web App</h3>
+        <hr class="subtitle-line">
+        <p>The Comp Finder web-app allows you to find all the WCA cubing competitions in states nearby to you. 
+            Use it to find competitions near you right now by clicking the "Try It" tab.</p>
+        <a href="https://github.com/lol-cubes/comp-finder-web-app" target="_blank" class="small">Github Page</a>
+    </div>
+    <br>
+    <br>
+    <div class="text-info">
+        <h3>Command Line Tool</h3>
+        <hr class="subtitle-line">
+        <p>Comp Finder is also available as a command-line tool. 
+            This runs a daemon process, which means that it is always running in the background along with all your other computer tasks.
+            It updates a file containing information about the competitions every 30 minutes.
+            </p>
+            <a href="https://github.com/lol-cubes/comp_finder" target="_blank" class="small">Github Page</a>
+    </div>
+</div>
+{% endblock %}

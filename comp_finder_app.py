@@ -1,4 +1,5 @@
 from flask import Flask, render_template, url_for, flash, redirect
+from flask_bootstrap import Bootstrap
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.keys import Keys
 from forms import CompInfoForm
@@ -12,6 +13,8 @@ IMAGE_FOLDER = os.path.join('static', 'images')
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = IMAGE_FOLDER
 app.config['SECRET_KEY'] = '6f147f48a92da2c5ce776dc1533259e8'
+
+Bootstrap(app)
 
 wca_image = os.path.join(app.config['UPLOAD_FOLDER'], 'wca_logo.png')
 loading_gif = os.path.join(app.config['UPLOAD_FOLDER'], 'loading_screen.gif')
