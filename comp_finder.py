@@ -336,14 +336,24 @@ def find_comps(states, location, information_types):
     try:
         competitions[-1].is_last = True
 
-        information_types.insert(0, 'name')
-        
         comp_strings = [competition.run() for competition in competitions]
         
         categories = [' '.join([x.capitalize() for x in i.split('_')]) for i in information_types]
-        output = [information_types, comp_strings]
+
+        output = []
+
+        for comp in comp_strings:
+            comp_output = [comp[0], []]
+            for category, value in zip(categories, comp[1:]):
+                comp_output[1].append(f'{category}: {value}')
+            output.append(comp_output)
 
         return output
+
+        # output:
+        #              comp1                         comp2
+        #   |-------------------------|   |---------------------------|
+        # [[name, [info1, info2, info3]], [name, [info1, info2, info3]]]
 
     except IndexError:
 

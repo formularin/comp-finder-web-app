@@ -39,11 +39,8 @@ def invalid_page(**kwargs):
 def found_comps_page(information_types, states, address):
 
     output = find_comps(states, address, information_types)
-
-    if type(output) == type(''):
-        return render_template('output.html', wca_image=wca_image, output='None', loading_gif=loading_gif)
-    else:
-        return render_template('output.html', wca_image=wca_image, output=output, loading_gif=loading_gif)
+    
+    return render_template('output.html', wca_image=wca_image, output=output, loading_gif=loading_gif)
 
 
 @app.route("/find_comps", methods=['GET', 'POST'])
