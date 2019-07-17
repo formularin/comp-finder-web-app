@@ -233,7 +233,12 @@ class Competition:
                 time_in_minutes += mins
             times_in_minutes.append(time_in_minutes)
 
-        return times[times_in_minutes.index(min(times_in_minutes))]
+        try:
+            index = times_in_minutes.index(min(times_in_minutes))
+        except ValueError:
+            index = 0
+
+        return times[index]
 
     def run(self):
         """Returns dictionary containing all of the competition's information"""
@@ -273,7 +278,7 @@ class Competition:
         return [str(i).strip() for i in outputs]
 
 
-def find_comps(states, location, information_types):
+def find_comps(states, information_types, location=None):
     """Returns Competition objects for competition in states
     
     Potential Information Types (must be in this order):
@@ -285,9 +290,11 @@ def find_comps(states, location, information_types):
         reached_competitor_limit
     """
 
+    print(states)
+
     # create webdriver without physical window
     op = ChromeOptions()
-    op.add_argument('headless')
+    # op.add_argument('headless')
     driver = Chrome(f'{CWD}/chromedriver', options=op)
 
     driver.get(PAGE_URL)
@@ -348,6 +355,8 @@ def find_comps(states, location, information_types):
                 comp_output[1].append(f'{category}: {value}')
             output.append(comp_output)
 
+        print(output)
+
         return output
 
         # output:
@@ -355,6 +364,8 @@ def find_comps(states, location, information_types):
         #   |-------------------------|   |---------------------------|
         # [[name, [info1, info2, info3]], [name, [info1, info2, info3]]]
 
-    except IndexError:
+    except IndexError as e:
+
+        print(e)
 
         return 'None'

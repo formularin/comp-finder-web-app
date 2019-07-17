@@ -1,7 +1,7 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, redirect
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.keys import Keys
-from forms import CompInfoForm
+from forms import CompInfoForm, AddressForm
 from comp_finder import find_comps
 import os
 import time
@@ -24,45 +24,45 @@ op = ChromeOptions()
 op.add_argument('headless')
 driver = Chrome(f'{CWD}/chromedriver', options=op)
 
+info_types = []
+s = []
+
 @app.route("/")
 @app.route("/home")
 def home_page():
     return render_template('home.html', wca_image=wca_image)
 
 
-@app.route("/invalid")
 def invalid_page(**kwargs):
     return render_template('invalid.html', wca_image=wca_image, **kwargs)
 
 
-@app.route("/found_comps")
-def found_comps_page(information_types, states, address):
+def found_comps_page(information_types, states, address=False):
 
-    output = find_comps(states, address, information_types)
+    if address:
+        output = find_comps(states, information_types, address)
+    else:
+        output = find_comps(states, information_types)
     
     return render_template('output.html', wca_image=wca_image, output=output, loading_gif=loading_gif)
 
 
-@app.route("/find_comps", methods=['GET', 'POST'])
-def find_comps_page():
+@app.route("/address-submit", methods=['GET', 'POST'])
+def address_page():
 
-    form = CompInfoForm()
+    information_types = info_types
+    states = s
 
-    # successfully inputted states and address
-    if form.validate_on_submit():
+    form = AddressForm()
 
-        # get data from inputs
-        states = [state.strip() for state in form.states.data.split('\n')]
+    validated = form.validate_on_submit()
+
+    print(f'address form errors: {form.errors}')
+
+    if validated:
+        
         address = form.address.data
-        
-        # catch all states that aren't in list of states
-        invalid_states = []
-        for state in states:
-            if state not in ALL_STATES:
-                invalid_states.append(state)
 
-        states_are_valid = bool(invalid_states == [])
-        
         # search for location on google maps
         driver.get('https://www.google.com/maps')
         time.sleep(2)
@@ -74,11 +74,38 @@ def find_comps_page():
 
         address_is_valid = bool(len(driver.find_elements_by_class_name('section-bad-query-title')) == 0)
 
-        if not address_is_valid and not states_are_valid:
-            return invalid_page(invalid=['states', 'address'], states=invalid_states, address=address)
-        elif not address_is_valid and states_are_valid:
+        if not address_is_valid:
             return invalid_page(invalid=['address'], address=address)
-        elif address_is_valid and not states_are_valid:
+
+        return found_comps_page(information_types, states, address)
+
+    return render_template('address.html', wca_image=wca_image, form=form, loading_gif=loading_gif)
+
+
+@app.route("/find_comps", methods=['GET', 'POST'])
+def find_comps_page():
+
+    form = CompInfoForm()
+
+    validated = form.validate_on_submit()
+
+    print(f'comp info form errors: {form.errors}')
+
+    # successfully inputted states and address
+    if validated:
+
+        # get data from inputs
+        states = [state.strip() for state in form.states.data.split('\n')]
+        
+        # catch all states that aren't in list of states
+        invalid_states = []
+        for state in states:
+            if state not in ALL_STATES:
+                invalid_states.append(state)
+
+        states_are_valid = bool(invalid_states == [])
+
+        if not states_are_valid:
             return invalid_page(invalid=['states'], states=invalid_states)
 
         information_types = []
@@ -91,12 +118,17 @@ def find_comps_page():
             information_types.append('website_link')
         if form.venue_address.data:
             information_types.append('venue_address')
-        if form.driving_distance.data:
-            information_types.append('driving_distance')
         if form.reached_competitor_limit.data:
             information_types.append('reached_competitor_limit')
+        if form.driving_distance.data:
+            information_types.append('driving_distance')
 
-        return found_comps_page(information_types, states, address)
+            info_types = information_types
+            s = states
+
+            return redirect(url_for('.address_page'))
+        else:
+            return found_comps_page(information_types, states)
 
     return render_template('find_comps.html', wca_image=wca_image, form=form, loading_gif=loading_gif)
 

@@ -188,3 +188,7 @@ div.error {
 .checkbox {
   transform: translateY(-2px);
 }
+
+#address-form {
+  padding-top: 100px;
+}

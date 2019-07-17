@@ -19,13 +19,6 @@ class CompInfoForm(FlaskForm):
                 }
             )
 
-    # address to know distance to competitions for
-    address = StringField(
-        'Address or Coordinates:', 
-        validators=[DataRequired()],
-        render_kw={'size': '79'}
-        )
-
     # checkboxes for information types
     date = BooleanField(
         'Date',
@@ -53,3 +46,14 @@ class CompInfoForm(FlaskForm):
     )
 
     submit = SubmitField('Find Competitions Near You', render_kw={'onclick': 'showDiv()'})
+
+
+class AddressForm(FlaskForm):
+    """address to know distance to competitions for"""
+    address = StringField(
+        'Address or Coordinates:', 
+        validators=[DataRequired()],
+        render_kw={'size': '79'}
+        )
+
+    submit = SubmitField('Submit Address', render_kw={'onclick': 'showDiv()'})

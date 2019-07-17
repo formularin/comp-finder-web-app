@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Comp Finder | Find Comps Near You</title>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/style.css') }}" />
+        <title>Comp Finder | Submit Address</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/style.css') }}">
         <link rel="shortcut icon" href="/static/images/favicon.ico" />
 
         <style>
@@ -28,18 +28,44 @@
     </head>
     <body>
 
-        <!-- loading div is only displayed when page is loading (find_comps is running) -->
-
         <div id="loading">
             <h3 style="text-align: center;">This may take a while</h3>
             <img src="{{ loading_gif }}" alt="loading animation" style="display: block;margin-left: auto;margin-right: auto;width: 40%;">
         </div>
+        
+        <!--script hides loading div-->
 
         <script>
             (function() {
                 var loadingDiv = document.getElementById("loading");
                 loadingDiv.style.display = "none";
             })();
+        </script>
+
+        <!--script to get address-->
+
+        <script type="text/javascript">
+            function GetAddress() {
+                if(navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(position => {
+                        var coordinates = position.coords.latitude.toString() + "," + position.coords.longitude.toString()
+                        var input_field = document.getElementById("address-input")
+                        input_field.value = coordinates
+                    })
+                }
+            }
+        </script>
+
+        <!--script to show the loading div-->
+
+        <script type="text/javascript">
+            function showDiv() {
+                var loadingDiv = document.getElementById("loading");
+                var contentDiv = document.getElementById("content");
+                loadingDiv.style.display = "block";
+                contentDiv.style.display = "none";
+                document.body.style.backgroundColor = '#262626'
+            }
         </script>
 
         <div id="content">
@@ -54,7 +80,7 @@
                     </li>
                     <div>
                         <li class="navbar-link">
-                            <a href="/home" class="inline-block button">Home</a>
+                            <a href="/home" class="inline-block button">Home </a>
                         </li>
                         <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
                         <li class="navbar-link">
@@ -71,55 +97,17 @@
             <div class="title">
                 <h1>Find WCA Competitions Near You</h1>
             </div>
-
-            <script type="text/javascript">
-                function showDiv() {
-                    var loadingDiv = document.getElementById("loading");
-                    var contentDiv = document.getElementById("content");
-                    loadingDiv.style.display = "block";
-                    contentDiv.style.display = "none";
-                    document.body.style.backgroundColor = '#262626'
-                }
-            </script>
-
-            <div class="form">
-                <p>Submit the states that you want to find competitions in, 
-                        and the address or coordinates to the place that you want to know the driving distances for.</p>
+            <div id="address_form">
                 <form method="POST" action="">
                     {{ form.hidden_tag() }}
                     <fieldset class="form-group">
-                        <div class="states-input-container">
-                            <p>States (capitalized and separated by newlines):</p>
-                            <br class="line-break">
-                            {{ form.states() }}
-                            <br class="line-break">
+                        <div id="address-input-container">
+                            {{ form.address.label() }}
+                            {{ form.address(id="address-input") }}
                         </div>
-                        <br>
-                        <hr style="margin-top: 10%;margin-bottom: 10%;width: 75%;">
-                        <hr style="margin-top: 10%;margin-bottom: 10%;width: 75%;">
-                        <div id="checkbox-section">
-                            <h4>Select Types of Information for Competitions:</h4>
-                            
-                            {{ form.date.label() }}
-                            {{ form.date() }}
-                            <br>
-                            {{ form.venue.label() }}
-                            {{ form.venue() }}
-                            <br>
-                            {{ form.website_link.label() }}
-                            {{ form.website_link() }}
-                            <br>
-                            {{ form.driving_distance.label() }}
-                            {{ form.driving_distance() }}
-                            <br>
-                            {{ form.reached_competitor_limit.label() }}
-                            {{ form.reached_competitor_limit() }}
-                            <br>
-                            {{ form.venue_address.label() }}
-                            {{ form.venue_address() }}
-                        </div>
+                        <button onclick="GetAddress()" id="use-current-address">Use Current Location</button>
+                        {{ form.submit(class="submit-button") }}
                     </fieldset>
-                    {{ form.submit(class="submit-button") }}
                 </form>
             </div>
         </div>
